@@ -13,8 +13,8 @@ const Home = () => {
                         accusantium perspiciatis, sapiente
                         magni eos dolorum ex quos dolores odio</p>
                     <div className="mt-12">
-                        <a href="#" className="bg-[#610361] border border-primary text-white px-8 py-3 font-medium 
-                    rounded-md hover:bg-transparent hover:text-[#610361]">Compra Ahora</a>
+                        <a href="shop" className="bg-[#610361] border border-[#e6affc] text-white hover:-translate-y-1 transition-transform duration-300 px-8 py-3 font-medium 
+                    rounded-md">Compra Ahora</a>
                     </div>
                 </div>
             </div>

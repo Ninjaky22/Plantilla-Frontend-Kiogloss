@@ -10,8 +10,8 @@ const Footer = () => {
             <div className="col-span-1 space-y-4">
                 <img src="/assets/images/logo.png" alt="logo" className="w-48" />
                 <div className="mr-2">
-                    <p className="text-gray-500">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, hic?
+                    <p className="text-[#7C86FF] font-pacifico text-lg">
+                        Tu belleza, amplificada.
                     </p>
                 </div>
                 <div className="flex space-x-5 font">
@@ -25,30 +25,29 @@ const Footer = () => {
             </div>
 
             <div className="col-span-1">
-                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Solutions</h3>
+                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Redirecciones</h3>
                 <div className="mt-4 space-y-3">
-                    <a href="shop" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Productos</a>
-                    <a href="wishlist" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Lista de deseos</a>
-                    <a href="account" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Cuenta</a>
-                    <a href="product" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Sobre Nosotros</a>
+                    <a href="shop" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Productos</a>
+                    <a href="wishlist" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Lista de deseos</a>
+                    <a href="cart" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Carrito</a>
+                    <a href="product" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Sobre Nosotros</a>
                 </div>
             </div>
 
             <div className="col-span-1">
-                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Support</h3>
+                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Tu cuenta</h3>
                 <div className="mt-4 space-y-3">
-                    <a href="register" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Registrate</a>
-                    <a href="login" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Inicia Sesión</a>
-                    <a href="cart" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Carrito</a>
+                    <a href="register" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Registrate</a>
+                    <a href="product" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Inicia Sesión</a>
+                    <a href="account" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Cuenta</a>
                 </div>
             </div>
 
             <div className="col-span-1">
                 <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Información</h3>
                 <div className="mt-4 space-y-3">
-                    <a className="text-2xl text-[#610361] block font-swash">Dirección: Campestre D mz 12 Casa 24</a>
-                    <a href="login" className="text-2xl text-[#610361] block font-pacifico">Horarios: Lunes a Domingo de 9 am a 7 pm</a>
-                    <a href="cart" className="text-2xl text-[#610361] hover:-translate-y-1 transition-transform duration-300 block font-pacifico">Carrito</a>
+                    <a className="text-2xl text-[#615FFF] block font-pacifico">Dirección: Campestre D mz 12 Casa 24</a>
+                    <a className="text-2xl text-[#615FFF] block font-pacifico">Horarios: Lunes a Domingo de 9 am a 7 pm</a>
                 </div>
             </div>
 

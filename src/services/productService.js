@@ -17,6 +17,16 @@ const productService = {
         }
     },
 
+    getProductBySlug: async (slug) => {
+        try {
+            const response = await api.get(`/article/${slug}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching product by slug:', error);
+            throw error;
+        }
+    },
+
     // Obtener detalle de un producto
     getProductById: async (id) => {
         try {

@@ -31,16 +31,12 @@ const Shop = () => {
             // los productos publicados ya filtrados por estado y por los criterios que enviemos.
             const requestPayload = {
                 page: currentPage,
-                size: 12,
-                sort: sortBy,
-                tags: filters.tags,
-                minPrice: filters.minPrice,
-                maxPrice: filters.maxPrice
+                page_size: 12,
             };
 
             console.debug('Shop loading products with params:', requestPayload);
 
-            const data = await productService.filterPublishedProducts(requestPayload);
+            const data = await productService.getAllProducts(requestPayload);
             
             // La API devuelve un objeto paginado
             const productList = data.content || data;
@@ -86,9 +82,9 @@ const Shop = () => {
     };
 
     return (
-        <>
+        <div className="bg-[#e6affc]">
             <Breadcrumb items={[
-                { label: 'Inicio', path: '/', icon: 'fa-solid fa-house' },
+                { label: 'Inicio', path: '/', icon: 'fa-solid fa-house text-[#610361]' },
                 { label: 'Productos' }
             ]} />
 
@@ -105,11 +101,11 @@ const Shop = () => {
                             name="sort" 
                             id="sort"
                             onChange={handleSortChange}
-                            className="w-44 text-sm text-gray-600 py-3 px-4 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary">
-                            <option value="">Default sorting</option>
-                            <option value="price-low-to-high">Price low to high</option>
-                            <option value="price-high-to-low">Price high to low</option>
-                            <option value="latest">Latest product</option>
+                            className="w-60 text-sm text-[#610361] py-3 px-4 border-[#e6affc] bg-[#f3d5ff] shadow-sm rounded focus:ring-primary focus:border-primary">
+                            <option value="">Configuración predeterminada</option>
+                            <option value="price-low-to-high">Precio: de menor a mayor</option>
+                            <option value="price-high-to-low">Precio: de mayor a menor</option>
+                            <option value="latest">Últimos productos</option>
                         </select>
 
                         <div className="flex gap-2 ml-auto">
@@ -160,7 +156,7 @@ const Shop = () => {
                 {/* ./products */}
             </div>
             {/* ./shop wrapper */}
-        </>
+        </div>
     );
 };
 

@@ -18,6 +18,7 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
         pacifico: ["Pacifico", "cursive"],
         swash: ['Berkshire Swash', 'serif'],
+        surfer: ['Original Surfer', 'cursive'],
       },
       colors: {
         primary: "#fd3d57",

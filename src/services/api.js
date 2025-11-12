@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Configuración base de la API
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/API/V1.0',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -10,7 +10,7 @@ const api = axios.create({
 });
 
 // Log para debug
-console.log('API Base URL:', import.meta.env.VITE_API_URL || 'http://localhost:8000/api');
+console.log('API Base URL:', import.meta.env.VITE_API_URL || 'http://localhost:8000/API/V1.0');
 
 // Interceptor para agregar el token a las peticiones
 api.interceptors.request.use(
@@ -66,7 +66,7 @@ api.interceptors.response.use(
                     return Promise.reject(error);
                 }
                 
-                const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/auth/refresh`, {
+                const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:8000/API/V1.0'}/refresh`, {
                     refreshToken,
                 });
 

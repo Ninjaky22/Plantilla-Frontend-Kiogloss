@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import productService from '../services/productService';
 
 const Product = () => {
+    const { slug } = useParams();
+    const [product, setProduct] = useState({});
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const data = await productService.getProductBySlug(slug);
+            setProduct(data);
+        };
+        fetchProduct();
+    }, [slug]);
+
     return (
         <>
             {/* breadcrumb */}
@@ -24,19 +38,18 @@ const Product = () => {
             {/* product detail */}
             <div className="container grid grid-cols-2 gap-6">
                 <div>
-                    <img src="/assets/images/products/product1.jpg" alt="product" className="w-full" />
+                    {product.images && product.images.length > 0 && (
+                        <img src={product.images[0]} alt={product.title} className="w-full" />
+                    )}
                     <div className="grid grid-cols-5 gap-4 mt-4">
-                        <img src="/assets/images/products/product2.jpg" alt="product2"
-                            className="w-full cursor-pointer border border-primary" />
-                        <img src="/assets/images/products/product3.jpg" alt="product2" className="w-full cursor-pointer border" />
-                        <img src="/assets/images/products/product4.jpg" alt="product2" className="w-full cursor-pointer border" />
-                        <img src="/assets/images/products/product5.jpg" alt="product2" className="w-full cursor-pointer border" />
-                        <img src="/assets/images/products/product6.jpg" alt="product2" className="w-full cursor-pointer border" />
+                        {product.images && product.images.slice(1, 6).map((img, index) => (
+                            <img key={index} src={img} alt={`${product.title} ${index + 2}`} className="w-full cursor-pointer" />
+                        ))}
                     </div>
                 </div>
 
                 <div>
-                    <h2 className="text-3xl font-medium uppercase mb-2">Italian L shape sofa</h2>
+                    <h2 className="text-3xl font-medium uppercase mb-2">{product.title}</h2>
                     <div className="flex items-center mb-4">
                         <div className="flex gap-1 text-sm text-yellow-400">
                             <span><i className="fa-solid fa-star"></i></span>
@@ -66,42 +79,21 @@ const Product = () => {
                         </p>
                     </div>
                     <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
-                        <p className="text-xl text-primary font-semibold">$45.00</p>
-                        <p className="text-base text-gray-400 line-through">$55.00</p>
+                        <p className="text-xl text-primary font-semibold">${product.price}</p>
                     </div>
 
-                    <p className="mt-4 text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos eius eum
-                        reprehenderit dolore vel mollitia optio consequatur hic asperiores inventore suscipit, velit
-                        consequuntur, voluptate doloremque iure necessitatibus adipisci magnam porro.</p>
+                    <p className="mt-4 text-gray-600">{product.description}</p>
 
                     <div className="pt-4">
                         <h3 className="text-sm text-gray-800 uppercase mb-1">Size</h3>
                         <div className="flex items-center gap-2">
-                            <div className="size-selector">
-                                <input type="radio" name="size" id="size-xs" className="hidden" />
-                                <label htmlFor="size-xs"
-                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">XS</label>
-                            </div>
-                            <div className="size-selector">
-                                <input type="radio" name="size" id="size-sm" className="hidden" />
-                                <label htmlFor="size-sm"
-                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">S</label>
-                            </div>
-                            <div className="size-selector">
-                                <input type="radio" name="size" id="size-m" className="hidden" />
-                                <label htmlFor="size-m"
-                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">M</label>
-                            </div>
-                            <div className="size-selector">
-                                <input type="radio" name="size" id="size-l" className="hidden" />
-                                <label htmlFor="size-l"
-                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">L</label>
-                            </div>
-                            <div className="size-selector">
-                                <input type="radio" name="size" id="size-xl" className="hidden" />
-                                <label htmlFor="size-xl"
-                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">XL</label>
-                            </div>
+                            {product.sizes && product.sizes.map((size, index) => (
+                                <div className="size-selector" key={index}>
+                                    <input type="radio" name="size" id={`size-${size}`} className="hidden" />
+                                    <label htmlFor={`size-${size}`}
+                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">{size}</label>
+                                </div>
+                            ))}
                         </div>
                     </div>
 

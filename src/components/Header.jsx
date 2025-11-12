@@ -11,14 +11,14 @@ const Header = () => {
                     </Link>
 
                     <div className="w-full max-w-xl relative flex">
-                        <span className="absolute left-4 top-3 text-lg text-gray-400">
+                        <span className="absolute left-4 top-3 text-lg text-[#610361]">
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </span>
                         <input type="text" name="search" id="search"
-                            className="w-full border border-primary border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline-none hidden md:flex"
+                            className="w-full border border-[#e6affc] border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline-none hidden md:flex"
                             placeholder="Buscar productos" />
                         <button
-                            className="bg-[#610361]  text-white px-8 rounded-r-xl hover:bg-transparent hover:text-primary transition hidden md:flex items-center">Buscar</button>
+                            className="bg-[#610361] text-white px-8 rounded-r-xl md:flex items-center">Buscar</button> 
                     </div>
 
                     <div className="flex items-center space-x-4">
@@ -52,7 +52,7 @@ const Header = () => {
             {/* ./header */}
 
             {/* navbar */}
-            <nav className="bg-linear-to-b from-[#e6affc] to-[#f3d5ff] ">
+            <nav className="bg-linear-to-b from-[#e6affc] to-[#f3d5ff]">
                 <div className="container flex">
                     <div className="flex items-center justify-between grow md:pl-12 py-5 text-xl">
                         <div className="flex items-center space-x-6 capitalize">

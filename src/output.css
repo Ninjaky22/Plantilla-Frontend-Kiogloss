@@ -521,6 +521,18 @@
   .w-50 {
     width: calc(var(--spacing) * 50);
   }
+  .w-55 {
+    width: calc(var(--spacing) * 55);
+  }
+  .w-60 {
+    width: calc(var(--spacing) * 60);
+  }
+  .w-65 {
+    width: calc(var(--spacing) * 65);
+  }
+  .w-70 {
+    width: calc(var(--spacing) * 70);
+  }
   .w-auto {
     width: auto;
   }
@@ -781,6 +793,9 @@
   }
   .border-\[\#4e275e\] {
     border-color: #4e275e;
+  }
+  .border-\[\#e6affc\] {
+    border-color: #e6affc;
   }
   .border-\[\#ebbaff\] {
     border-color: #ebbaff;
