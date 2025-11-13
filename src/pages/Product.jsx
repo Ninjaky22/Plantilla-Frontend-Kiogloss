@@ -67,13 +67,13 @@ const Product = () => {
                     {/* description moved to separate collapsible box below to preserve layout */}
 
                     <div className="pt-4">
-                        <h3 className="text-sm text-gray-800 uppercase mb-1">Size</h3>
+                        <h3 className="text-sm text-gray-800 mb-1 font-winkySans">Size</h3>
                         <div className="flex items-center gap-2">
                             {product.sizes && product.sizes.map((size, index) => (
                                 <div className="size-selector" key={index}>
                                     <input type="radio" name="size" id={`size-${size}`} className="hidden" />
                                     <label htmlFor={`size-${size}`}
-                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-amber-300">{size}</label>
+                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-[#610361] font-surfer">{size}</label>
                                 </div>
                             ))}
                         </div>
@@ -93,14 +93,7 @@ const Product = () => {
                         </div>
                     </div>
 
-                    <div className="mt-4">
-                        <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
-                        <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-                            <div className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">-</div>
-                            <div className="h-8 w-8 text-base flex items-center justify-center">4</div>
-                            <div className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">+</div>
-                        </div>
-                    </div>
+                    impl
 
                     <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
                         <a href="#"
