@@ -7,6 +7,10 @@ const Product = () => {
     const { slug } = useParams();
     const [product, setProduct] = useState({});
 
+    // quantity for the product detail page (min 1, max = product.stock)
+    const [quantity, setQuantity] = useState(1);
+    const [addedMessage, setAddedMessage] = useState('');
+
     useEffect(() => {
         const fetchProduct = async () => {
             const data = await productService.getProductBySlug(slug);
@@ -15,8 +19,90 @@ const Product = () => {
         fetchProduct();
     }, [slug]);
 
+    // When product changes, ensure quantity is valid
+    useEffect(() => {
+        if (!product) return;
+        // ensure sensible defaults
+        if (!product.stock || product.stock <= 0) {
+            setQuantity(1);
+            return;
+        }
+        setQuantity((q) => {
+            if (product.stock < 1) return 1;
+            return q > product.stock ? product.stock : q < 1 ? 1 : q;
+        });
+    }, [product]);
+
+    const increment = () => {
+        setQuantity((q) => {
+            const max = product?.stock ?? q + 1;
+            return Math.min(q + 1, max);
+        });
+    };
+
+    const decrement = () => {
+        setQuantity((q) => Math.max(1, q - 1));
+    };
+
+    // Add product to cart in localStorage. Cart schema: [{ id, slug, title, price, quantity, subtotal, image, stock }]
+    const addToCart = () => {
+        const stock = product?.stock ?? 0;
+        const price = Number(product?.price ?? 0);
+
+        if (stock <= 0) {
+            setAddedMessage('Producto sin stock');
+            setTimeout(() => setAddedMessage(''), 2000);
+            return;
+        }
+
+        if (quantity < 1) {
+            setAddedMessage('Cantidad mínima 1');
+            setTimeout(() => setAddedMessage(''), 1500);
+            return;
+        }
+
+        // derive a stable id for item (try id, _id, slug)
+        const itemId = product.id ?? product._id ?? product.slug ?? product.title;
+
+        const cartKey = 'cart';
+        const raw = localStorage.getItem(cartKey);
+        let cart = [];
+        try { cart = raw ? JSON.parse(raw) : []; } catch (e) { cart = []; }
+
+        const existingIndex = cart.findIndex((it) => it.id === itemId);
+
+        if (existingIndex > -1) {
+            // merge quantities but cap at stock
+            const existing = cart[existingIndex];
+            const newQty = Math.min(stock, existing.quantity + quantity);
+            existing.quantity = newQty;
+            existing.subtotal = Number((existing.quantity * price).toFixed(2));
+            cart[existingIndex] = existing;
+        } else {
+            const newItem = {
+                id: itemId,
+                slug: product.slug,
+                title: product.title,
+                price: price,
+                quantity: Math.min(quantity, stock),
+                subtotal: Number((Math.min(quantity, stock) * price).toFixed(2)),
+                image: product.images && product.images[0] ? product.images[0] : null,
+                stock: stock
+            };
+            cart.push(newItem);
+        }
+
+        // persist cart and cart total
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+        const cartTotal = cart.reduce((s, it) => s + (Number(it.subtotal) || 0), 0);
+        localStorage.setItem('cartTotal', Number(cartTotal.toFixed(2)));
+
+        setAddedMessage('Añadido al carrito');
+        setTimeout(() => setAddedMessage(''), 1500);
+    };
+
     return (
-        <div className="pb-24">
+        <div className="pb-24 bg-[#fccbfc]">
             {/* breadcrumb */}
             <div className="container py-4 flex items-center gap-3">
                 <Link to="/" className="text-[#610361] text-base">
@@ -48,16 +134,16 @@ const Product = () => {
                     </div>
                 </div>
 
-                <div>
-                    <h2 className="text-3xl font-medium font-winkySans mb-2">{product.title}</h2>
+                <div className="border border- pl-6">
+                    <h2 className="text-4xl font-medium font-winkySans mb-2">{product.title}</h2>
                     <div className="space-y-2">
-                        <p className="text-gray-800 font-semibold space-x-2 font-surfer">
+                        <p className="text-[#610361] text-2xl font-semibold space-x-2 font-surfer">
                             <span>Disponibilidad: </span>
                             <span className={`font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>{product.stock > 0 ? 'En Stock' : 'Fuera de Stock'}</span>
                         </p>
                         <p className="space-x-2 font-surfer">
-                            <span className="text-gray-800 font-semibold">Category: </span>
-                            <span className="text-gray-600">{product.tags && product.tags.join(', ')}</span>
+                            <span className="text-[#610361] text-2xl font-semibold font-winkySans">Category: </span>
+                            <span className="text-[#610361]">{product.tags && product.tags.join(', ')}</span>
                         </p>
                     </div>
                     <div className="flex items-baseline mb-1 space-x-2 font-pacifico mt-4">
@@ -67,20 +153,20 @@ const Product = () => {
                     {/* description moved to separate collapsible box below to preserve layout */}
 
                     <div className="pt-4">
-                        <h3 className="text-sm text-gray-800 mb-1 font-winkySans">Size</h3>
+                        <h3 className="text-2xl text-[#610361] mb-1 font-semibold font-winkySans">Talla</h3>
                         <div className="flex items-center gap-2">
                             {product.sizes && product.sizes.map((size, index) => (
                                 <div className="size-selector" key={index}>
                                     <input type="radio" name="size" id={`size-${size}`} className="hidden" />
                                     <label htmlFor={`size-${size}`}
-                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-[#610361] font-surfer">{size}</label>
+                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center  cursor-pointer shadow-sm text-[#610361] bg-white font-surfer">{size}</label>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     <div className="pt-4">
-                        <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Color</h3>
+                        <h3 className="text-2xl text-[#610361] mb-3 font-semibold font-winkySans">Color</h3>
                         <div className="flex items-center gap-2">
                             {product.colors && product.colors.map((color, index) => (
                                 <div className="color-selector" key={index}>
@@ -93,13 +179,39 @@ const Product = () => {
                         </div>
                     </div>
 
-                    impl
+                    <div className="mt-4">
+                        <h3 className="text-2xl text-[#610361] mb-1 font-semibold font-winkySans">Cantidad</h3>
+                        <div className="flex items-center gap-2">
+                            <div className="flex border border-[#610361] rounded-md text-[#610361] divide-x divide-gray-300 w-max">
+                                <button
+                                    type="button"
+                                    onClick={decrement}
+                                    disabled={quantity <= 1}
+                                    className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none disabled:opacity-50"
+                                    aria-label="Disminuir cantidad">-</button>
+                                <div className="h-8 w-12 text-base flex items-center justify-center">{quantity}</div>
+                                <button
+                                    type="button"
+                                    onClick={increment}
+                                    disabled={product?.stock ? quantity >= product.stock : false}
+                                    className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none disabled:opacity-50"
+                                    aria-label="Aumentar cantidad">+</button>
+                            </div>
+                            <div className="text-sm text-gray-400 ml-2">Stock: {product?.stock ?? '—'}</div>
+                        </div>
+                    </div>
 
-                    <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
-                        <a href="#"
-                            className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
+                    <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5 items-center">
+                        <button
+                            type="button"
+                            onClick={addToCart}
+                            disabled={(product?.stock ?? 0) <= 0}
+                            className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition disabled:opacity-50">
                             <i className="fa-solid fa-bag-shopping"></i> Add to cart
-                        </a>
+                        </button>
+                        {addedMessage && (
+                            <span className="text-sm text-green-600">{addedMessage}</span>
+                        )}
                         <a href="#"
                             className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition">
                             <i className="fa-solid fa-heart"></i> Wishlist
