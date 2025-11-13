@@ -1,6 +1,27 @@
 import { Link } from 'react-router-dom';
+import {useEffect, useState} from "react"
+import api from "../services/api"
+import {jwtDecode} from "jwt-decode"
 
 const Account = () => {
+
+    const [user, setUser] = useState("") 
+
+    const getInfoUser = async () => {
+
+        const tokenAccess = localStorage.getItem("access")
+        const {user_id} = jwtDecode(tokenAccess)
+        const {data} = await api.get(`/user/${user_id}`)
+        setUser(data)
+        console.log(data)
+    }
+
+    useEffect( () => {
+
+        getInfoUser()
+
+    }, [] )
+
     return (
         <>
             {/* breadcrumb */}
@@ -21,12 +42,12 @@ const Account = () => {
                 <div className="col-span-3">
                     <div className="px-4 py-3 shadow flex items-center gap-4">
                         <div className="shrink-0">
-                            <img src="/assets/images/avatar.png" alt="profile"
+                            <img src={user.profileImage  !==null ? user.profileImage :"../../../assets/perfil.jpg"}  alt="profile"
                                 className="rounded-full w-14 h-14 border border-gray-200 p-1 object-cover" />
                         </div>
                         <div className="grow">
-                            <p className="text-gray-600">Hello,</p>
-                            <h4 className="text-gray-800 font-medium">John Doe</h4>
+                            <p className="text-gray-600">Hola, </p>
+                            <h4 className="text-gray-800 font-medium"> {user.name} </h4>
                         </div>
                     </div>
 
