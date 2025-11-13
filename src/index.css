@@ -68,3 +68,23 @@
     font-family: 'Winky Sans', sans-serif;
   }
 }
+
+@layer components {
+  /* Collapsible description box located outside the product columns */
+  details.product-details {
+    @apply w-full md:w-3/5 mx-auto bg-white rounded-lg shadow p-4 mt-30;
+    max-height: 360px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
+  details.product-details summary {
+    @apply list-none cursor-pointer flex items-center justify-between text-gray-800 font-medium;
+  }
+  details.product-details .toggle-plus { @apply inline-block; }
+  details.product-details .toggle-minus { @apply hidden; }
+  details.product-details[open] .toggle-plus { @apply hidden; }
+  details.product-details[open] .toggle-minus { @apply inline-block; }
+}

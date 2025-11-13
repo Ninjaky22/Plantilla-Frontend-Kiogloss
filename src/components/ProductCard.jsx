@@ -1,10 +1,30 @@
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import Account from '../pages/Account';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ProductCard = ({ product }) => {
     const [favorited, setFavorited] = useState(false);
+    const [products, setProducts] = useState([]);
+
+    useEffect ( () => {
+
+        localStorage.setItem("products", JSON.stringify([]))
+
+    }, [] )
+
+
+    const addCarrito = () => {
+        products.find( (p) => {
+            
+            p.id === p.
+
+        } )
+        setProducts([...products, product])
+        localStorage.setItem("products", JSON.stringify(products))
+
+    } 
+
     // Valores por defecto si no vienen del backend
     const {
         slug = product.slug,
@@ -82,6 +102,7 @@ const ProductCard = ({ product }) => {
                 </div>
             </div>
             <button
+                onClick={ () => {addCarrito()}}
                 className="block w-full py-1 text-center text-[#610361] bg-linear-to-b from-[#e6affc] to-[#f3d5ff] border border-[#f3d5ff] rounded-1xl hover:bg-transparent hover:text-primary transition">
                 Agregar al carrito
             </button>

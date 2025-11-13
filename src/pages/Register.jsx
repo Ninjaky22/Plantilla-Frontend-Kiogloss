@@ -1,6 +1,51 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../services/api'
+import {useState} from "react"
 
 const Register = () => {
+
+    const navegar = useNavigate()
+
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [street, setStreet] = useState("");
+    const [streetNumber, setStreetNumber] = useState("");
+    const [distric, setDistric] = useState("");
+
+    const handlerSignUp = async (e) => {
+
+        e.preventDefault();
+        console.log(email);
+        console.log(name);
+        console.log(password);
+        console.log(phoneNumber);
+        console.log(street);
+        console.log(streetNumber);
+        console.log(distric);
+        const createUserPayload = {
+            email,
+            name,
+            password,
+            phoneNumber,
+            address: {
+                street,
+                streetNumber,
+                distric
+            },
+            account: {
+                pointsPerPurchase: 0,
+                isActive: true
+            }
+        }
+        const {data} = await api.post("/user/", createUserPayload)
+        console.log(data);
+        localStorage.setItem("access", JSON.stringify(data.access))
+        localStorage.setItem("refresh", JSON.stringify(data.refresh))
+        navegar("/account")
+    }
+
     return (
         <>
             {/* breadcrumb */}
@@ -18,68 +63,81 @@ const Register = () => {
             {/* register */}
             <div className="contain py-16">
                 <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
-                    <h2 className="text-2xl uppercase font-medium mb-1">Create an account</h2>
+                    <h2 className="text-2xl uppercase font-medium mb-1">Crear una Cuenta</h2>
                     <p className="text-gray-600 mb-6 text-sm">
-                        Register for a new customer
+                        Registrate aquí!
                     </p>
                     <form action="#" method="post" autoComplete="off">
                         <div className="space-y-2">
                             <div>
-                                <label htmlFor="name" className="text-gray-600 mb-2 block">Full Name</label>
-                                <input type="text" name="name" id="name"
-                                    className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                                    placeholder="John Doe" />
-                            </div>
-                            <div>
-                                <label htmlFor="email" className="text-gray-600 mb-2 block">Email address</label>
+                                <label htmlFor="email" className="text-gray-600 mb-2 block">Email</label>
                                 <input type="email" name="email" id="email"
+                                    value = {email}
+                                    onChange = { (e) => setEmail(e.target.value) }
                                     className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                     placeholder="youremail@domain.com" />
                             </div>
                             <div>
-                                <label htmlFor="password" className="text-gray-600 mb-2 block">Password</label>
+                                <label htmlFor="name" className="text-gray-600 mb-2 block">Nombre Completo</label>
+                                <input type="text" name="name" id="name"
+                                    value = {name}
+                                    onChange = { (e) => setName(e.target.value) }
+                                    className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                                    placeholder="Sergio Castro" />
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="text-gray-600 mb-2 block">Contraseña</label>
                                 <input type="password" name="password" id="password"
+                                    value = {password}
+                                    onChange = { (e) => setPassword(e.target.value) }
                                     className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                     placeholder="*******" />
                             </div>
                             <div>
-                                <label htmlFor="confirm" className="text-gray-600 mb-2 block">Confirm password</label>
-                                <input type="password" name="confirm" id="confirm"
+                                <label htmlFor="phoneNumber" className="text-gray-600 mb-2 block">Numero Telefonico</label>
+                                <input type="tel" name="phoneNumber" id="phoneNumber"
+                                    value = {phoneNumber}
+                                    onChange = { (e) => setPhoneNumber(e.target.value) }
                                     className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                     placeholder="*******" />
                             </div>
-                        </div>
-                        <div className="mt-6">
-                            <div className="flex items-center">
-                                <input type="checkbox" name="agreement" id="agreement"
-                                    className="text-primary focus:ring-0 rounded-sm cursor-pointer" />
-                                <label htmlFor="agreement" className="text-gray-600 ml-3 cursor-pointer">I have read and agree to the <a
-                                    href="#" className="text-primary">terms & conditions</a></label>
+                            <div>
+                                <label htmlFor="street" className="text-gray-600 mb-2 block">Calle</label>
+                                <input type="text" name="street" id="street"
+                                    value = {street}
+                                    onChange = { (e) => setStreet(e.target.value) }
+                                    className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                                    placeholder="Calle 19a" />
+                            </div>
+                            <div>
+                                <label htmlFor="streetNumber" className="text-gray-600 mb-2 block">Dirección</label>
+                                <input type="text" name="dirección" id="dirección"
+                                    value = {streetNumber}
+                                    onChange = { (e) => setStreetNumber(e.target.value) }
+                                    className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                                    placeholder="#39-17" />
+                            </div>
+                            <div>
+                                <label htmlFor="distric" className="text-gray-600 mb-2 block">Barrio</label>
+                                <input type="text" name="barrio" id="barrio"
+                                    value = {distric}
+                                    onChange = { (e) => setDistric(e.target.value) }
+                                    className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                                    placeholder="Oriente" />
                             </div>
                         </div>
                         <div className="mt-4">
                             <button type="submit"
-                                className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">create
-                                account</button>
+                                onClick = { (e) => handlerSignUp(e) }
+                                className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">
+                                    Crear Cuenta
+                                </button>
                         </div>
                     </form>
 
-                    {/* register with */}
-                    <div className="mt-6 flex justify-center relative">
-                        <div className="text-gray-600 uppercase px-3 bg-white z-10 relative">Or signup with</div>
-                        <div className="absolute left-0 top-3 w-full border-b-2 border-gray-200"></div>
-                    </div>
-                    <div className="mt-4 flex gap-4">
-                        <a href="#"
-                            className="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700">facebook</a>
-                        <a href="#"
-                            className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500">google</a>
-                    </div>
-                    {/* ./register with */}
-
-                    <p className="mt-4 text-center text-gray-600">Already have account? <Link to="/login"
-                        className="text-primary">Login
-                        now</Link></p>
+                    <p className="mt-4 text-center text-gray-600">Ya tienes una cuenta? <Link to="/login"
+                        className="text-primary">Iniciar Sesión
+                        </Link></p>
                 </div>
             </div>
             {/* ./register */}
