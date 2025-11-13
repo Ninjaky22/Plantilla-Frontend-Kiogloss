@@ -838,6 +838,9 @@
   .border-\[\#f3d5ff\] {
     border-color: #f3d5ff;
   }
+  .border-amber-300 {
+    border-color: var(--color-amber-300);
+  }
   .border-gray-100 {
     border-color: var(--color-gray-100);
   }

@@ -197,7 +197,7 @@ const Product = () => {
                                     className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none disabled:opacity-50"
                                     aria-label="Aumentar cantidad">+</button>
                             </div>
-                            <div className="text-sm text-gray-400 ml-2">Stock: {product?.stock ?? '—'}</div>
+                            <div className="text-sm text-[#610361] font-winkySans font-semibold ml-2">Stock: {product?.stock ?? '—'}</div>
                         </div>
                     </div>
 
@@ -206,7 +206,7 @@ const Product = () => {
                             type="button"
                             onClick={addToCart}
                             disabled={(product?.stock ?? 0) <= 0}
-                            className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition disabled:opacity-50">
+                            className="bg-linear-to-b from-[#ebbaff] to-[#f3d5ff] border border-[#ebbaff] text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition disabled:opacity-50">
                             <i className="fa-solid fa-bag-shopping"></i> Add to cart
                         </button>
                         {addedMessage && (
