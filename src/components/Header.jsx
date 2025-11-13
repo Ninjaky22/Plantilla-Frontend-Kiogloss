@@ -58,8 +58,8 @@ const Header = () => {
                         <div className="flex items-center space-x-6 capitalize">
                             <Link to="/" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Inicio</Link>
                             <Link to="/shop" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Productos</Link>
-                            <Link to="#" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Sobre Nosotros</Link>
-                            <Link to="#" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Contáctanos</Link>
+                            <Link to="/about" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Sobre Nosotros</Link>
+                            <Link to="/contact" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Contáctanos</Link>
                         </div>
                         <Link to="/login" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Iniciar Sesión</Link>
                     </div>
