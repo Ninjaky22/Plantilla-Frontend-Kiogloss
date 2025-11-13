@@ -93,7 +93,7 @@ export default function ContactForm() {
                                     type="text"
                                     value={nombre}
                                     onChange={(e) => setNombre(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-4 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
+                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-2 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
                                     placeholder="Tu nombre o el de tu negocio"
                                     required
                                 />
@@ -106,7 +106,7 @@ export default function ContactForm() {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-4 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
+                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-2 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
                                     placeholder="ejemplo@dominio.com"
                                     required
                                 />
@@ -119,7 +119,7 @@ export default function ContactForm() {
                                     type="text"
                                     value={asunto}
                                     onChange={(e) => setAsunto(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-4 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
+                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-2 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
                                     placeholder="Consulta de pedido, colaboración, etc."
                                     required
                                 />
@@ -132,7 +132,7 @@ export default function ContactForm() {
                                     value={mensaje}
                                     onChange={(e) => setMensaje(e.target.value)}
                                     rows={6}
-                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-4 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
+                                    className="w-full px-4 py-2 rounded-lg border border-[#e6c0e6] focus:outline-none focus:ring-2 focus:ring-[#d78ac7] focus:border-[#d78ac7] transition duration-150"
                                     placeholder="Describe tu consulta en detalle aquí..."
                                     required
                                 />
