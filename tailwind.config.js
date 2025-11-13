@@ -19,9 +19,11 @@ module.exports = {
         pacifico: ["Pacifico", "cursive"],
         swash: ['Berkshire Swash', 'serif'],
         surfer: ['Original Surfer', 'cursive'],
+        winkySans: ['Winky Sans', 'sans-serif'],
       },
       colors: {
         primary: "#fd3d57",
+        hoverFavorite: "#ff6f81",
       },
     },
   },

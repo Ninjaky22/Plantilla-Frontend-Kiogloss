@@ -52,3 +52,19 @@
     @apply font-roboto;
   }
 }
+
+/* Ensure custom font utility classes for fonts that sometimes aren't generated
+   (Berkshire Swash, Original Surfer, Winky Sans). These match the class
+   names used in components (e.g. `font-winkySans`) so they apply immediately.
+*/
+@layer utilities {
+  .font-swash {
+    font-family: 'Berkshire Swash', serif;
+  }
+  .font-surfer {
+    font-family: 'Original Surfer', cursive;
+  }
+  .font-winkySans {
+    font-family: 'Winky Sans', sans-serif;
+  }
+}

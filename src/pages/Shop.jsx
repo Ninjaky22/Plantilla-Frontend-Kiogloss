@@ -82,7 +82,7 @@ const Shop = () => {
     };
 
     return (
-        <div className="bg-[#e6affc]">
+        <div className="bg-[#f0ccff]">
             <Breadcrumb items={[
                 { label: 'Inicio', path: '/', icon: 'fa-solid fa-house text-[#610361]' },
                 { label: 'Productos' }
@@ -101,13 +101,13 @@ const Shop = () => {
                             name="sort" 
                             id="sort"
                             onChange={handleSortChange}
-                            className="w-60 text-sm text-[#610361] py-3 px-4 border-[#e6affc] bg-[#f3d5ff] shadow-sm rounded focus:ring-primary focus:border-primary">
+                            className="w-60 text-sm text-[#610361] py-3 px-4 border-[#e6affc] bg-[#f3d5ff] shadow-sm rounded-lg focus:ring-[#f3d5ff] focus:border-[#f3d5ff] font-winkySans">
                             <option value="">Configuración predeterminada</option>
                             <option value="price-low-to-high">Precio: de menor a mayor</option>
                             <option value="price-high-to-low">Precio: de mayor a menor</option>
                             <option value="latest">Últimos productos</option>
                         </select>
-
+                        
                         <div className="flex gap-2 ml-auto">
                             <div
                                 className="border border-primary w-10 h-9 flex items-center justify-center text-white bg-primary rounded cursor-pointer">
@@ -125,14 +125,14 @@ const Shop = () => {
                         <div className="flex justify-center items-center py-20">
                             <div className="text-center">
                                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-                                <p className="mt-4 text-gray-600">Cargando productos...</p>
+                                <p className="mt-4 text-[#610361]">Cargando productos...</p>
                             </div>
                         </div>
                     )}
 
                     {/* Error state */}
                     {error && !loading && (
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <div className="bg-red-100   border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                             <strong className="font-bold">Error!</strong>
                             <span className="block sm:inline"> {error}</span>
                         </div>
