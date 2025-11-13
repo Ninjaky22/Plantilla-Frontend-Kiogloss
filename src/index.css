@@ -72,7 +72,8 @@
 @layer components {
   /* Collapsible description box located outside the product columns */
   details.product-details {
-    @apply w-full md:w-3/5 mx-auto bg-white rounded-lg shadow p-4 mt-30;
+    /* full width on mobile, fixed width on md+, left-aligned */
+    @apply w-full md:w-3/5 ml-0 bg-white rounded-lg shadow p-4 mt-35;
     max-height: 360px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;

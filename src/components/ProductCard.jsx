@@ -14,16 +14,7 @@ const ProductCard = ({ product }) => {
     }, [] )
 
 
-    const addCarrito = () => {
-        products.find( (p) => {
-            
-            p.id === p.
-
-        } )
-        setProducts([...products, product])
-        localStorage.setItem("products", JSON.stringify(products))
-
-    } 
+    
 
     // Valores por defecto si no vienen del backend
     const {

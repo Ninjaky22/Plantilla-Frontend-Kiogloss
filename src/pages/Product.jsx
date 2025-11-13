@@ -25,13 +25,13 @@ const Product = () => {
                 <span className="text-sm text-gray-400">
                     <i className="fa-solid fa-chevron-right"></i>
                 </span>
-                <Link to="/shop" className="text-[#610361] text-base">
+                <Link to="/shop" className="text-[#610361] text-base font-winkySans">
                     Catálogo
                 </Link>
                 <span className="text-sm text-gray-400">
                     <i className="fa-solid fa-chevron-right"></i>
                 </span>
-                <p className="text-[#610361] font-medium">{product.title}</p>
+                <p className="text-[#610361] font-winkySans">{product.title}</p>
             </div>
             {/* ./breadcrumb */}
 
@@ -49,19 +49,19 @@ const Product = () => {
                 </div>
 
                 <div>
-                    <h2 className="text-3xl font-medium uppercase mb-2">{product.title}</h2>
+                    <h2 className="text-3xl font-medium font-winkySans mb-2">{product.title}</h2>
                     <div className="space-y-2">
-                        <p className="text-gray-800 font-semibold space-x-2">
+                        <p className="text-gray-800 font-semibold space-x-2 font-surfer">
                             <span>Disponibilidad: </span>
                             <span className={`font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>{product.stock > 0 ? 'En Stock' : 'Fuera de Stock'}</span>
                         </p>
-                        <p className="space-x-2">
+                        <p className="space-x-2 font-surfer">
                             <span className="text-gray-800 font-semibold">Category: </span>
                             <span className="text-gray-600">{product.tags && product.tags.join(', ')}</span>
                         </p>
                     </div>
-                    <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
-                        <p className="text-xl text-primary font-semibold">${product.price}</p>
+                    <div className="flex items-baseline mb-1 space-x-2 font-pacifico mt-4">
+                        <p className="text-xl text-[#610361] font-semibold">COP {product.price}</p>
                     </div>
 
                     {/* description moved to separate collapsible box below to preserve layout */}
@@ -73,7 +73,7 @@ const Product = () => {
                                 <div className="size-selector" key={index}>
                                     <input type="radio" name="size" id={`size-${size}`} className="hidden" />
                                     <label htmlFor={`size-${size}`}
-                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">{size}</label>
+                                        className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-amber-300">{size}</label>
                                 </div>
                             ))}
                         </div>
