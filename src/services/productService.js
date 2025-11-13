@@ -205,6 +205,37 @@ const productService = {
             throw error;
         }
     },
+
+    // FAVORITES: add, list by account, remove by pk
+    addFavorite: async (payload) => {
+        try {
+            const response = await api.post('/user/favorite', payload);
+            return response;
+        } catch (error) {
+            console.error('Error adding favorite:', error);
+            throw error;
+        }
+    },
+
+    getFavoritesByAccount: async (accountId) => {
+        try {
+            const response = await api.get(`/user/account/account_favorites/${accountId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching account favorites:', error);
+            throw error;
+        }
+    },
+
+    removeFavoriteByPk: async (pk) => {
+        try {
+            const response = await api.delete(`/user/delete/${pk}`);
+            return response;
+        } catch (error) {
+            console.error('Error removing favorite:', error);
+            throw error;
+        }
+    },
 };
 
 export default productService;

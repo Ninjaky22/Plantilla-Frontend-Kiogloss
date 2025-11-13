@@ -1,12 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
+  const navigate = useNavigate();
   const readStorage = () => {
-    try {
-      const raw = localStorage.getItem('products');
-      const arr = raw ? JSON.parse(raw) : [];
-      // Normalize shape to what the component expects
+    
+   try {
+      // Support multiple possible storage keys for compatibility
+      const keys = ['products', 'cart', 'shopping'];
+      let arr = [];
+      let foundKey = null;
+      for (const k of keys) {
+        const raw = localStorage.getItem(k);
+        if (!raw) continue;
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            arr = parsed;
+            foundKey = k;
+            break;
+          }
+        } catch (e) {
+          // ignore parse errors, try next key
+        }
+      }
+
+      // If nothing found, return empty
+      if (!arr || arr.length === 0) return [];
+
+      // Normalize shape: handle both 'products' shape (productId, title...) and 'cart' shape (id, title...)
       return arr.map(i => ({
         id: i.productId ?? i.id,
         name: i.title ?? i.name,
@@ -15,11 +38,46 @@ export default function Cart() {
         image: i.image ?? i.imageUrl ?? '',
         size: i.size ?? '',
         color: i.color ?? '' ,
-        stock: i.stock ?? 9999,
+       stock: i.stock ?? i.available ?? 9999,
       }));
     } catch (e) {
       console.error('Error leyendo carrito desde localStorage', e);
       return [];
+    }
+  };
+  
+  const saveStorage = (items) => {
+    try {
+      // items is normalized shape used by component
+      const productsArray = items.map(i => ({
+        productId: i.id,
+        title: i.name,
+        price: Number(i.price),
+        quantity: i.quantity,
+        stock: i.stock,
+        image: i.image,
+        subtotal: Number((i.price * i.quantity).toFixed(2))
+      }));
+
+      const cartArray = items.map(i => ({
+        id: i.id,
+        title: i.name,
+        price: Number(i.price),
+        quantity: i.quantity,
+        image: i.image,
+        stock: i.stock,
+        subtotal: Number((i.price * i.quantity).toFixed(2))
+      }));
+
+      localStorage.setItem('products', JSON.stringify(productsArray));
+      localStorage.setItem('cart', JSON.stringify(cartArray));
+
+      // Also update a cartTotal key for compatibility with other parts
+      const total = productsArray.reduce((s, it) => s + (Number(it.subtotal) || 0), 0);
+      localStorage.setItem('cartTotal', String(total));
+      window.dispatchEvent(new Event('cart_updated'));
+    } catch (e) {
+      console.error('Error guardando carrito', e);
     }
   };
 
@@ -45,22 +103,8 @@ export default function Cart() {
           ? { ...item, quantity: Math.max(1, Math.min(item.stock ?? 9999, item.quantity + change)) }
           : item
       );
-      // Persist
-      try {
-        const toStore = updated.map(i => ({
-          productId: i.id,
-          title: i.name,
-          price: Number(i.price),
-          quantity: i.quantity,
-          stock: i.stock,
-          image: i.image,
-          subtotal: Number((i.price * i.quantity).toFixed(2))
-        }));
-        localStorage.setItem('products', JSON.stringify(toStore));
-        window.dispatchEvent(new Event('cart_updated'));
-      } catch (e) {
-        console.error('Error guardando carrito', e);
-      }
+     // Persist to storage (both 'products' and 'cart')
+      saveStorage(updated);
       return updated;
     });
   };
@@ -68,21 +112,8 @@ export default function Cart() {
   const removeItem = (id) => {
     setCartItems(items => {
       const updated = items.filter(item => item.id !== id);
-      try {
-        const toStore = updated.map(i => ({
-          productId: i.id,
-          title: i.name,
-          price: Number(i.price),
-          quantity: i.quantity,
-          stock: i.stock,
-          image: i.image,
-          subtotal: Number((i.price * i.quantity).toFixed(2))
-        }));
-        localStorage.setItem('products', JSON.stringify(toStore));
-        window.dispatchEvent(new Event('cart_updated'));
-      } catch (e) {
-        console.error('Error guardando carrito', e);
-      }
+     // Persist to storage (both 'products' and 'cart')
+      saveStorage(updated);
       return updated;
     });
   };
@@ -209,7 +240,7 @@ export default function Cart() {
                 </span>
               </div>
 
-              <button
+              <button onClick={() => navigate('/checkout')}
                 disabled={cartItems.length === 0}
                 className="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
               >

@@ -61,7 +61,9 @@ const Header = () => {
                             <Link to="/about" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Sobre Nosotros</Link>
                             <Link to="/contact" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Contáctanos</Link>
                         </div>
-                        <Link to="/login" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Iniciar Sesión</Link>
+                        {!(localStorage.getItem('access') || localStorage.getItem('accessToken')) && (
+                            <Link to="/login" className="text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 font-swash">Iniciar Sesión</Link>
+                        )}
                     </div>
                 </div>
             </nav>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import api from '../services/api';
-import Account from '../pages/Account';
+import productService from '../services/productService';
+import {jwtDecode} from 'jwt-decode';
 import { useState, useEffect } from 'react';
 
 const ProductCard = ({ product }) => {
@@ -48,16 +49,51 @@ const ProductCard = ({ product }) => {
     const unitPrice = parsePrice(displayPrice);
 
     const handleAddToFavorites = async (product) => {
-        // Lógica para agregar a favoritos
-        console.log('Agregar a favoritos:', product);
-        const data = await api.post(`/user/favorite`, { product: product.id, account: 1  });
-        console.log('Respuesta de favoritos:', data);
-        
-            if (data.status === 201) {
-                setFavorited(true);
+        try {
+            // Try to get account id from token
+            const rawToken = localStorage.getItem('access') || localStorage.getItem('accessToken');
+            let accountId = null;
+            if (rawToken) {
+                try {
+                    const decoded = jwtDecode(rawToken);
+                    accountId = decoded?.user_id || decoded?.userId || decoded?.sub || decoded?.id || null;
+                } catch (e) {
+                    console.warn('Could not decode token for account id', e);
+                }
             }
-         else {
-            console.error('Error al agregar a favoritos');
+
+            const payload = {
+                product: Number(product.id),
+                account: accountId ? Number(accountId) : 1 // fallback to 1 if no token
+            };
+
+            const resp = await productService.addFavorite(payload);
+            if (resp && (resp.status === 201 || resp.status === 200)) {
+                setFavorited(true);
+
+                // Persist minimal product info in localStorage wishlist for client-side fallback
+                try {
+                    const raw = localStorage.getItem('wishlist');
+                    const list = raw ? JSON.parse(raw) : [];
+                    const exists = list.find(i => Number(i.productId) === Number(product.id));
+                    if (!exists) {
+                        list.push({
+                            productId: Number(product.id),
+                            title: product.title || product.name || product.slug || `Product ${product.id}`,
+                            price: Number(unitPrice || 0),
+                            image: product.images && product.images[0] ? product.images[0] : productImage,
+                            slug: product.slug || product.id
+                        });
+                        localStorage.setItem('wishlist', JSON.stringify(list));
+                    }
+                } catch (e) {
+                    console.warn('Could not persist wishlist locally', e);
+                }
+            } else {
+                console.error('Error adding favorite, unexpected response', resp);
+            }
+        } catch (e) {
+            console.error('Error adding to favorites', e);
         }
     }
 
