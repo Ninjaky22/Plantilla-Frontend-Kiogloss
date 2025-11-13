@@ -82,7 +82,7 @@ const Shop = () => {
     };
 
     return (
-        <div className="bg-[#f0ccff]">
+        <div className="bg-[#F7E6FE]">
             <Breadcrumb items={[
                 { label: 'Inicio', path: '/', icon: 'fa-solid fa-house text-[#610361]' },
                 { label: 'Productos' }

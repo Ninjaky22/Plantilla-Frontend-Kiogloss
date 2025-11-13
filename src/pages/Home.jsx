@@ -2,7 +2,7 @@ import ProductCard from '../components/ProductCard';
 
 const Home = () => {
     return (
-        <div className="bg-[#e6affc]">
+        <div className="bg-[#F7E6FE]">
             {/* banner */}
             <div className="bg-cover bg-no-repeat bg-center py-36" style={{ backgroundImage: "url('/assets/images/banner-bg.jpeg')" }}>
                 <div className="container">

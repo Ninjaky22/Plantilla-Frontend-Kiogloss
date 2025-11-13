@@ -102,7 +102,7 @@ const Product = () => {
     };
 
     return (
-        <div className="pb-24 bg-[#fccbfc]">
+        <div className="pb-24 bg-[#F7E6FE]">
             {/* breadcrumb */}
             <div className="container py-4 flex items-center gap-3">
                 <Link to="/" className="text-[#610361] text-base">
@@ -206,14 +206,14 @@ const Product = () => {
                             type="button"
                             onClick={addToCart}
                             disabled={(product?.stock ?? 0) <= 0}
-                            className="bg-linear-to-b from-[#ebbaff] to-[#f3d5ff] border border-[#ebbaff] text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition disabled:opacity-50">
+                            className="bg-linear-to-b from-[#ebbaff] to-[#f3d5ff] border border-[#ebbaff] text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-[#610361] transition duration-300 disabled:opacity-50">
                             <i className="fa-solid fa-bag-shopping"></i> Add to cart
                         </button>
                         {addedMessage && (
                             <span className="text-sm text-green-600">{addedMessage}</span>
                         )}
                         <a href="#"
-                            className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition">
+                            className="bg-linear-to-b from-[#ebbaff] to-[#f3d5ff] border border-[#ebbaff] text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition duration-300">
                             <i className="fa-solid fa-heart"></i> Wishlist
                         </a>
                     </div>

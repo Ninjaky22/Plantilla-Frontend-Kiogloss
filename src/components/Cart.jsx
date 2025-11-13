@@ -1,152 +1,100 @@
-import React, { useState } from 'react';
-import { Trash2, Plus, Minus, ShoppingBag, Tag } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState([
-      {
-        id: 1,
-        name: 'Camiseta Básica',
-        price: 29.99,
-        quantity: 2,
-        image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop',
-        size: 'M',
-        color: 'Negro'
-      },
-      {
-        id: 2,
-        name: 'Jeans Slim Fit',
-        price: 59.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop',
-        size: 'L',
-        color: 'Azul'
-      },
-      {
-        id: 3,
-        name: 'Zapatillas Deportivas',
-        price: 89.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=200&h=200&fit=crop',
-        size: '42',
-        color: 'Blanco'
-      },
-      {
-        id: 1,
-        name: 'Camiseta Básica',
-        price: 29.99,
-        quantity: 2,
-        image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop',
-        size: 'M',
-        color: 'Negro'
-      },
-      {
-        id: 2,
-        name: 'Jeans Slim Fit',
-        price: 59.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop',
-        size: 'L',
-        color: 'Azul'
-      },
-      {
-        id: 3,
-        name: 'Zapatillas Deportivas',
-        price: 89.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=200&h=200&fit=crop',
-        size: '42',
-        color: 'Blanco'
-      },
-      {
-        id: 1,
-        name: 'Camiseta Básica',
-        price: 29.99,
-        quantity: 2,
-        image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop',
-        size: 'M',
-        color: 'Negro'
-      },
-      {
-        id: 2,
-        name: 'Jeans Slim Fit',
-        price: 59.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop',
-        size: 'L',
-        color: 'Azul'
-      },
-      {
-        id: 3,
-        name: 'Zapatillas Deportivas',
-        price: 89.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=200&h=200&fit=crop',
-        size: '42',
-        color: 'Blanco'
-      },
-      {
-        id: 1,
-        name: 'Camiseta Básica',
-        price: 29.99,
-        quantity: 2,
-        image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop',
-        size: 'M',
-        color: 'Negro'
-      },
-      {
-        id: 2,
-        name: 'Jeans Slim Fit',
-        price: 59.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop',
-        size: 'L',
-        color: 'Azul'
-      },
-      {
-        id: 3,
-        name: 'Zapatillas Deportivas',
-        price: 89.99,
-        quantity: 1,
-        image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=200&h=200&fit=crop',
-        size: '42',
-        color: 'Blanco'
-      },
-]);
-
-  const [couponCode, setCouponCode] = useState('');
-  const [discount, setDiscount] = useState(0);
-
-  const updateQuantity = (id, change) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
-  const applyCoupon = () => {
-    if (couponCode.toUpperCase() === 'DESCUENTO10') {
-      setDiscount(10);
-    } else if (couponCode.toUpperCase() === 'VERANO20') {
-      setDiscount(20);
-    } else {
-      alert('Cupón inválido');
+  const readStorage = () => {
+    try {
+      const raw = localStorage.getItem('products');
+      const arr = raw ? JSON.parse(raw) : [];
+      // Normalize shape to what the component expects
+      return arr.map(i => ({
+        id: i.productId ?? i.id,
+        name: i.title ?? i.name,
+        price: i.price ?? i.unitPrice ?? 0,
+        quantity: i.quantity ?? 1,
+        image: i.image ?? i.imageUrl ?? '',
+        size: i.size ?? '',
+        color: i.color ?? '' ,
+        stock: i.stock ?? 9999,
+      }));
+    } catch (e) {
+      console.error('Error leyendo carrito desde localStorage', e);
+      return [];
     }
   };
 
+  const [cartItems, setCartItems] = useState(readStorage());
+
+  useEffect(() => {
+    const onStorage = () => setCartItems(readStorage());
+    const onCartUpdated = () => setCartItems(readStorage());
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('cart_updated', onCartUpdated);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('cart_updated', onCartUpdated);
+    };
+  }, []);
+
+  // No coupon features - backend doesn't support discounts
+
+  const updateQuantity = (id, change) => {
+    setCartItems(items => {
+      const updated = items.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, Math.min(item.stock ?? 9999, item.quantity + change)) }
+          : item
+      );
+      // Persist
+      try {
+        const toStore = updated.map(i => ({
+          productId: i.id,
+          title: i.name,
+          price: Number(i.price),
+          quantity: i.quantity,
+          stock: i.stock,
+          image: i.image,
+          subtotal: Number((i.price * i.quantity).toFixed(2))
+        }));
+        localStorage.setItem('products', JSON.stringify(toStore));
+        window.dispatchEvent(new Event('cart_updated'));
+      } catch (e) {
+        console.error('Error guardando carrito', e);
+      }
+      return updated;
+    });
+  };
+
+  const removeItem = (id) => {
+    setCartItems(items => {
+      const updated = items.filter(item => item.id !== id);
+      try {
+        const toStore = updated.map(i => ({
+          productId: i.id,
+          title: i.name,
+          price: Number(i.price),
+          quantity: i.quantity,
+          stock: i.stock,
+          image: i.image,
+          subtotal: Number((i.price * i.quantity).toFixed(2))
+        }));
+        localStorage.setItem('products', JSON.stringify(toStore));
+        window.dispatchEvent(new Event('cart_updated'));
+      } catch (e) {
+        console.error('Error guardando carrito', e);
+      }
+      return updated;
+    });
+  };
+
+  // applyCoupon removed (not supported by backend)
+
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discountAmount = (subtotal * discount) / 100;
   const shipping = subtotal > 100 ? 0 : 5.99;
-  const total = subtotal - discountAmount + shipping;
+  const total = subtotal + shipping;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -232,33 +180,7 @@ export default function Cart() {
                 Resumen del Pedido
               </h2>
 
-              {/* Coupon */}
-              <div className="mb-6">
-                <label className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
-                  <Tag size={16} />
-                  Código de Descuento
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    placeholder="DESCUENTO10"
-                    className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button
-                    onClick={applyCoupon}
-                    className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors"
-                  >
-                    Aplicar
-                  </button>
-                </div>
-                {discount > 0 && (
-                  <p className="text-green-600 text-sm mt-2">
-                    ✓ Descuento del {discount}% aplicado
-                  </p>
-                )}
-              </div>
+              {/* No coupon UI - handled by backend if ever supported */}
 
               {/* Price Breakdown */}
               <div className="space-y-3 mb-6 pb-6 border-b border-slate-200">
@@ -266,12 +188,7 @@ export default function Cart() {
                   <span>Subtotal</span>
                   <span className="font-semibold">${subtotal.toFixed(2)}</span>
                 </div>
-                {discount > 0 && (
-                  <div className="flex justify-between text-green-600">
-                    <span>Descuento ({discount}%)</span>
-                    <span className="font-semibold">-${discountAmount.toFixed(2)}</span>
-                  </div>
-                )}
+                {/* no discounts */}
                 <div className="flex justify-between text-slate-600">
                   <span>Envío</span>
                   <span className="font-semibold">
