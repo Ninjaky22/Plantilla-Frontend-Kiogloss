@@ -17,8 +17,8 @@ export default function ContactForm() {
     const [successMsg, setSuccessMsg] = useState('')
     const [errorMsg, setErrorMsg] = useState('')
 
-    // ! IMPORTANTE: Reemplaza esta URL con el endpoint de tu API en producción.
-    const endpoint = 'http://localhost:8000/api/contacto'
+    // 🎯 Reemplaza este correo con el destinatario real.
+    const DESTINATION_EMAIL = 'casanovacristian40@gmail.com';
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -27,50 +27,47 @@ export default function ContactForm() {
 
         // Validación de campos vacíos
         if (!nombre.trim() || !email.trim() || !asunto.trim() || !mensaje.trim()) {
-            setErrorMsg('Por favor completa todos los campos.')
-            return
+            setErrorMsg('Por favor completa todos los campos.');
+            return;
         }
 
-        setLoading(true)
-        try {
-            // Llama a la API de tu backend para enviar el mensaje
-            const res = await fetch(endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nombre, email, asunto, mensaje })
-            })
+        setLoading(true);
 
-            if (res.ok && (res.status === 200 || res.status === 201)) {
-                setSuccessMsg('¡Gracias por contactarnos! Tu mensaje ha sido enviado.')
-                // Limpiar campos tras el éxito
-                setNombre('')
-                setEmail('')
-                setAsunto('')
-                setMensaje('')
-            } else {
-                let text = 'Ocurrió un error al enviar el mensaje. Por favor intenta de nuevo.'
-                try {
-                    // Intenta leer el mensaje de error del cuerpo de la respuesta JSON
-                    const data = await res.json()
-                    if (data && data.message) text = data.message
-                } catch (_) { }
-                setErrorMsg(text)
-            }
+        try {
+            // 1. Codificar los valores para URL
+            const body = encodeURIComponent(`Hola, mi nombre es ${nombre}. \n\n${mensaje}\n\nMi correo es: ${email}`);
+            const subject = encodeURIComponent(asunto);
+
+            // 2. Construir la URL mailto:
+            // Usamos un salto de línea (%0D%0A) para estructurar el mensaje en el cuerpo del correo.
+            const mailtoUrl = `mailto:${DESTINATION_EMAIL}?subject=${subject}&body=${body}`;
+
+            // 3. Abrir el cliente de correo en una nueva pestaña
+            window.open(mailtoUrl, '_blank');
+
+            setSuccessMsg('¡Mensaje listo! Se abrió tu cliente de correo para que puedas enviarlo.');
+
+            // Limpiar campos tras el éxito
+            setNombre('');
+            setEmail('');
+            setAsunto('');
+            setMensaje('');
+
         } catch (err) {
-            // Error de red (ej. API no está levantada o CORS)
-            console.error("Error de conexión:", err);
-            setErrorMsg('No se pudo conectar con el servidor. Verifica que la API esté ejecutándose o la URL sea correcta.')
+            // Este catch es más bien para errores de JS si los hubiese, no de red.
+            setErrorMsg('Ocurrió un error al preparar el correo.');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
     return (
         <div className="flex justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
             <div className="w-full max-w-lg">
-                                <div className="bg-white rounded-xl shadow-2xl border-2 border-[#a84aa7] overflow-hidden transform transition duration-500 hover:shadow-1xl">
+                <div className="bg-white rounded-xl shadow-2xl border-2 border-[#a84aa7] overflow-hidden transform transition duration-500 hover:shadow-1xl">
                     <div className="bg-[#a84aa7] px-6 py-6 sm:px-8">
                         <h2 className="text-3xl font-extrabold text-white text-center tracking-tight">
+                            <HeartIcon />
                             Contáctanos
                         </h2>
                         <p className="text-md text-pink-100 mt-2 text-center">¡Estamos aquí para ayudarte! Escríbenos y te responderemos tan pronto como sea posible.</p>
@@ -78,7 +75,8 @@ export default function ContactForm() {
 
                     <div className="p-6 sm:p-8">
                         {successMsg && (
-                            <div className="mb-6 p-4 rounded-lg text-green-800 bg-green-100 border border-green-300 font-medium animate-pulse-once">{successMsg}</div>
+                            // La clase 'animate-pulse-once' se mantuvo, pero la animación es solo visual.
+                            <div className="mb-6 p-4 rounded-lg text-green-800 bg-green-100 border border-green-300 font-medium">{successMsg}</div>
                         )}
 
                         {errorMsg && (
@@ -86,6 +84,8 @@ export default function ContactForm() {
                         )}
 
                         <form onSubmit={handleSubmit} className="space-y-6">
+
+                            {/* Campo Nombre */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-1" htmlFor="nombre">Nombre Completo *</label>
                                 <input
@@ -99,6 +99,7 @@ export default function ContactForm() {
                                 />
                             </div>
 
+                            {/* Campo Email */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-1" htmlFor="email">Correo Electrónico *</label>
                                 <input
@@ -112,6 +113,7 @@ export default function ContactForm() {
                                 />
                             </div>
 
+                            {/* Campo Asunto */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-1" htmlFor="asunto">Asunto o Tema *</label>
                                 <input
@@ -125,6 +127,7 @@ export default function ContactForm() {
                                 />
                             </div>
 
+                            {/* Campo Mensaje */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-1" htmlFor="mensaje">Tu Mensaje *</label>
                                 <textarea
@@ -138,17 +141,19 @@ export default function ContactForm() {
                                 />
                             </div>
 
+                            {/* Botón de Envío */}
                             <div>
                                 <button
                                     type="submit"
                                     className="w-full py-3 rounded-lg bg-[#a84aa7] hover:bg-[#8e398d] text-white text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg transition duration-200"
                                     disabled={loading}
                                 >
-                                    {loading ? 'Enviando Mensaje...' : 'ENVIAR MENSAJE'}
+                                    {loading ? 'Preparando Correo...' : 'ENVIAR MENSAJE VÍA EMAIL'}
                                 </button>
                             </div>
 
                             <p className="text-xs text-center text-gray-500 mt-4">* Todos los campos son obligatorios. </p>
+                            <p className="text-xs text-center text-gray-400 mt-1">** Se abrirá tu aplicación de correo predeterminada para el envío final.</p>
                         </form>
                     </div>
                 </div>
