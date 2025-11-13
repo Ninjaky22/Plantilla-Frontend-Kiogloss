@@ -45,7 +45,7 @@ export default function ContactForm() {
             // 3. Abrir el cliente de correo en una nueva pestaña
             window.open(mailtoUrl, '_blank');
 
-            setSuccessMsg('¡Mensaje listo! Se abrió tu cliente de correo para que puedas enviarlo.');
+            setSuccessMsg('¡Mensaje listo! Se abrió tu cliente de correo para que puedas enviarlo. Y pronto recibirá una respuesta.');
 
             // Limpiar campos tras el éxito
             setNombre('');
@@ -62,7 +62,7 @@ export default function ContactForm() {
     }
 
     return (
-        <div className="flex justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
+        <div className="flex justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-lg">
                 <div className="bg-white rounded-xl shadow-2xl border-2 border-[#a84aa7] overflow-hidden transform transition duration-500 hover:shadow-1xl">
                     <div className="bg-[#a84aa7] px-6 py-6 sm:px-8">

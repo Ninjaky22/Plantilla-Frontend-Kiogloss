@@ -27,18 +27,20 @@ const Footer = () => {
             <div className="col-span-1">
                 <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider font-surfer">Redirecciones</h3>
                 <div className="mt-4 space-y-3">
-                    <a href="shop" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Productos</a>
-                    <a href="wishlist" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Lista de deseos</a>
-                    <a href="cart" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Carrito</a>
-                    <a href="product" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Sobre Nosotros</a>
+                    <a href="/" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Incio</a>
+                    <a href="/shop" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Productos</a>
+                    <a href="/wishlist" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Lista de deseos</a>
+                    <a href="/cart" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Carrito</a>
+                    <a href="/about" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Sobre Nosotros</a>
+                    <a href="/contact" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Contáctanos</a>
                 </div>
             </div>
 
             <div className="col-span-1">
                 <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider font-surfer">Tu cuenta</h3>
                 <div className="mt-4 space-y-3">
-                    <a href="register" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Registrate</a>
                     <a href="product" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Inicia Sesión</a>
+                    <a href="register" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Registrate</a>
                     <a href="account" className="text-2xl text-[#7C86FF] hover:text-[#615FFF] hover:-translate-y-1 transition-transform duration-300 block font-winkySans">Cuenta</a>
                 </div>
             </div>
