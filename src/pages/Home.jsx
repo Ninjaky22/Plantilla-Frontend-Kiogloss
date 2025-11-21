@@ -49,7 +49,7 @@ const Home = () => {
 
             {/* categories */}
             <div className="container py-16">
-                <h2 className="text-3xl font-medium text-[#615FFF] font-swash mb-6">Comprar por categoria</h2>
+                <h2 className="text-3xl font-medium text-[#610361] font-swash mb-6">Comprar por categoria</h2>
                 <div className="grid grid-cols-3 gap-3">
                     <div className="relative rounded-sm overflow-hidden group">
                         <img src="/assets/images/category/category-1.jpg" alt="category 1" className="w-full h-full" />
